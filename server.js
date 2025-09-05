@@ -1,12 +1,26 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+const os = require('os');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
 app.use(express.static('public'));
+
+// Get local IP address
+function getLocalIP() {
+    const interfaces = os.networkInterfaces();
+    for (const name of Object.keys(interfaces)) {
+        for (const interface of interfaces[name]) {
+            if (interface.family === 'IPv4' && !interface.internal) {
+                return interface.address;
+            }
+        }
+    }
+    return 'localhost';
+}
 
 let adminSocket = null;
 
@@ -32,7 +46,6 @@ io.on('connection', (socket) => {
         }
     });
 
-    // Simple message relay
     socket.on('offer', (data) => {
         socket.broadcast.emit('offer', data);
     });
@@ -53,6 +66,14 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3000, () => {
-    console.log('Server running on port 3000');
+const PORT = 3000;
+const localIP = getLocalIP();
+
+server.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n🚀 Server running on port ${PORT}`);
+    console.log(`📱 Local access: http://localhost:${PORT}`);
+    console.log(`🌐 Network access: http://${localIP}:${PORT}`);
+    console.log(`\n📹 Admin (Streamer): http://${localIP}:${PORT}/admin.html`);
+    console.log(`👥 Viewer: http://${localIP}:${PORT}/viewer.html`);
+    console.log(`\nShare the network URL with others on your WiFi network!`);
 });
