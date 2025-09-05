@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Video Stream</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Streaming Panel</h1>
+        <div class="video-container">
+            <video id="localVideo" autoplay playsinline muted></video>
+            <div class="video-overlay">
+                <span>Your Camera (Admin)</span>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="startBtn" class="btn btn-success">Start Streaming</button>
+            <button id="stopBtn" class="btn btn-danger" disabled>Stop Streaming</button>
+            <button id="toggleAudio" class="btn btn-secondary">Toggle Audio</button>
+            <button id="toggleVideo" class="btn btn-secondary">Toggle Video</button>
+        </div>
+        <div id="status" class="status">Ready to stream</div>
+        <div id="viewerCount" class="viewer-count">Viewers: 0</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const isAdmin = true;
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>

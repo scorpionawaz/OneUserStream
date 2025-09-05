@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viewer - Video Stream</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Live Stream Viewer</h1>
+        <div class="video-container">
+            <video id="remoteVideo" autoplay playsinline muted controls style="width: 100%; background: #000;"></video>
+
+            <div class="video-overlay">
+                <span id="streamStatus">Waiting for admin...</span>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="connectBtn" class="btn btn-primary">Connect to Stream</button>
+            <button id="disconnectBtn" class="btn btn-danger" disabled>Disconnect</button>
+        </div>
+        <div id="status" class="status">Waiting for admin to start streaming</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const isAdmin = false;
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
