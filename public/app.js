@@ -3,11 +3,28 @@ let localStream = null;
 let peerConnections = new Map();
 let isStreaming = false;
 
+// const configuration = {
+//     iceServers: [
+//         { urls: 'stun:stun.l.google.com:19302' },
+//         { urls: 'stun:stun1.l.google.com:19302' },
+//         // Free public TURN servers (fixes cross-network issues)
+//         {
+//             urls: 'turn:numb.viagenie.ca',
+//             credential: 'muazkh',
+//             username: 'webrtc@live.com'
+//         },
+//         {
+//             urls: 'turn:192.158.29.39:3478?transport=udp',
+//             credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+//             username: '28224511:1379330808'
+//         }
+//     ]
+// };
 const configuration = {
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
         { urls: 'stun:stun1.l.google.com:19302' },
-        // Free public TURN servers (fixes cross-network issues)
+        // Multiple TURN servers for better connectivity
         {
             urls: 'turn:numb.viagenie.ca',
             credential: 'muazkh',
@@ -17,8 +34,15 @@ const configuration = {
             urls: 'turn:192.158.29.39:3478?transport=udp',
             credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
             username: '28224511:1379330808'
+        },
+        {
+            urls: 'turn:192.158.29.39:3478?transport=tcp',
+            credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+            username: '28224511:1379330808'
         }
-    ]
+    ],
+    // Force relay through TURN servers (bypass direct connections)
+    iceTransportPolicy: 'relay'
 };
 
 
@@ -355,3 +379,4 @@ function updateStreamStatus(status) {
     console.log('📡 Stream Status:', status);
     if (streamStatusSpan) streamStatusSpan.textContent = status;
 }
+
